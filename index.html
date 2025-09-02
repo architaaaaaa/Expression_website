@@ -82,7 +82,7 @@
                 <!-- Messages will be dynamically inserted here -->
             </div>
 
-            <!-- Message Input -->
+            <!-- START: "Queries Box" (Message Input and Send Button) -->
             <div class="p-4 bg-white border-t border-slate-200">
                 <div class="flex items-center">
                     <input type="text" id="message-input" placeholder="Type a message..." class="flex-1 border border-slate-300 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
@@ -93,6 +93,7 @@
                     </button>
                 </div>
             </div>
+            <!-- END: "Queries Box" -->
         </section>
     </main>
 
@@ -106,7 +107,7 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
+    <!-- START: "Backend Part" (Firebase SDKs and Logic) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -301,5 +302,6 @@
         });
 
     </script>
+    <!-- END: "Backend Part" -->
 </body>
 </html>
