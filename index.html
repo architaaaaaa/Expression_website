@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -304,19 +303,28 @@
 
         let db, auth;
         let isFirebaseInitialized = false;
+        let userId;
 
         async function initializeFirebase() {
             try {
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
-                if (initialAuthToken) {
+
+                try {
                     await signInWithCustomToken(auth, initialAuthToken);
-                } else {
+                    console.log("Successfully signed in with custom token.");
+                } catch (authError) {
+                    console.error("Custom token sign-in failed. Attempting anonymous sign-in...", authError);
                     await signInAnonymously(auth);
+                    console.log("Signed in anonymously.");
                 }
+                
+                // Set userId after authentication
+                userId = auth.currentUser?.uid || crypto.randomUUID();
                 isFirebaseInitialized = true;
-                console.log("Firebase initialized successfully.");
+                console.log("Firebase initialized successfully. User ID:", userId);
+
             } catch (error) {
                 console.error("Firebase initialization failed:", error);
                 showModal("Error", "Failed to initialize the database. Please try again later.");
@@ -374,6 +382,7 @@
             `;
 
             try {
+                // Use a public collection for enquiries
                 const enquiriesCollectionRef = collection(db, `artifacts/${appId}/public/data/enquiries`);
                 await addDoc(enquiriesCollectionRef, data);
                 showModal("Thank You!", "Your message has been sent successfully. We will get back to you shortly.");
